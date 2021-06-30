@@ -31,7 +31,7 @@ const getUrl  = (req, res) => {
       console.log('Connected to the bookmark database.');
     });
      db.serialize(() => {
-      db.each(`SELECT * FROM bookmarks`, (err, row) => {
+      db.each(`SELECT * FROM bookmarks ORDER BY id DESC`, (err, row) => {
         if (err) {
           console.error(err.message);
         }
@@ -51,5 +51,35 @@ const getUrl  = (req, res) => {
   }
   
 
+
+
+const deleteBm = (bmId) => {
+  console.log("Im ready to delete the Bookmark with the id ", bmId.id )
+  let db = new sqlite3.Database('db/bookmark.db', (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+
+  let id = bmId.id;
+  // delete a row based on id
+  db.run(`DELETE FROM bookmarks WHERE id=?`, id, function(err) {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log(`Row(s) deleted ${this.changes}`);
+  });
+
+  // close the database connection
+  db.close((err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+  });
+}
+
+
+
 exports.addUrlDb = addUrlDb;
 exports.getUrl = getUrl;
+exports.deleteBm = deleteBm;

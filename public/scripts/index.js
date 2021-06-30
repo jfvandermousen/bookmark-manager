@@ -3,6 +3,10 @@
 const addUrlBtn = document.getElementById('add');
 const showBtn = document.getElementById('show');
 const bookmarkPage = document.getElementById('grid');
+const deleteBm = document.getElementById('delete');
+
+
+
 
 
 
@@ -163,7 +167,7 @@ const searchUrl = (url) => {
             bookmarks.forEach((bookmark) => {
             let bookmarkCard = `      
                <div class="grid-item card">
-                <img id="delete" src="static/img/sharp_delete.png">
+                <img class="delete" data-id=${bookmark.id}  src="static/img/sharp_delete.png">
                 <img id="myimage" src="${bookmark.Img_url}">
                 <div id="mytitle" class="">${bookmark.Title}</div>
                 <div id="mydescription" class="">${bookmark.Description}</div>
@@ -173,10 +177,16 @@ const searchUrl = (url) => {
               </div>`
               console.log(bookmark.Title)
               bookmarkPage.insertAdjacentHTML('beforeend', bookmarkCard)
+
+
           
             })
           }
-          
+
+
+
+
+
 
           const getBookmark = () => {
             fetch('/apigeturl', {
@@ -189,18 +199,61 @@ const searchUrl = (url) => {
             .then(data => {
               console.log('Success:', data);
               addBm(data.data);
+              trashButton();
             })
             )
           }
         
-// EVENTS
+      //     function myFunction(){
+      //       for(let i=1;i<=6; i++) {
+      //         getBookmark();
+      //   }
+      // }
 
 
+          const deleteBookmark = (card) => {
+            fetch('/apideleteurl', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(card),
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Success:', data);
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+          }
+
+        
+        const trashButton = () => {
+            let trashes = document.querySelectorAll('.delete')
+            trashes.forEach((trash) =>{
+                trash.addEventListener('click', (event) => {
+                  console.log(trash.dataset.id)
+                  deleteBookmark({id: trash.dataset.id})
+                  trash.parentNode.remove(); 
+                })
+            })
+        }
+        
+
+
+function clearField() {
+
+  document.getElementById("url-input").value = "";
+}
 
 addUrlBtn.addEventListener('click', (event) => {
 
     let input = document.getElementById('url-input')
     searchUrl(input);
+    clearField();
+    // getBookmark();
+
 
 });
 
@@ -209,5 +262,6 @@ showBtn.addEventListener('click', (event) => {
   getBookmark();
 });
 
-
-
+// deleteBm.addEventListener('click', (event) => {
+//   alert('Clicked');
+// });

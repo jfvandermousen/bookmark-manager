@@ -28,4 +28,12 @@ app.post('/apiurldb', (req,res) => {
 
 app.post('/apigeturl', newUrl.getUrl)
 
+// app.post('/apideleteurl', newUrl.deleteBm)
+
+app.post('/apideleteurl', (req, res) => {
+  newUrl.deleteBm(req.body)
+  console.log('Try to delete,',req.body)
+})
+
+
 app.listen(3000, () => console.log("Server Up and running"));
