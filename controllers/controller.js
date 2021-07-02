@@ -8,8 +8,8 @@ const addUrlDb = (data) => {
     let db = new sqlite3.Database('db/bookmark.db');
 
 
-      // insert one row into the langs table
-  db.run(`INSERT INTO bookmarks(Title,Description,Img_url,Url) VALUES(?,?,?,?)`, [data.title, data.description, data.image, data.url], function(err) {
+      // insert one row into the bookmarks table
+  db.run(`INSERT INTO bookmarks(Title,Description,Img_url,Url) VALUES(?,?,?,?)`, [data.title, data.description, data.image, data.url] , function(err) {
     if (err) {
       return console.log(err.message);
     }
@@ -18,7 +18,7 @@ const addUrlDb = (data) => {
   });
 
 }
-
+;
 
 const getUrl  = (req, res) => {
 

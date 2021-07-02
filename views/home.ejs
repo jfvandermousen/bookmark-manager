@@ -5,30 +5,32 @@
   <meta name="viewport" content="width=device-width,
   initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="static/stylesheets/style.css">
-
+  <link rel="stylesheet" type="text/css" href="static/css/all.css">
   <title>Document</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
-<body onload="myFunction()">
+<body>
 
   <div id="sidebar" class="sidebar">
-    <img  src="static\img\kramark_logo.png" class="logo" alt="logo">
+    <div class="closebtn" onclick="closeNav()">×</div>
+      <img  src="static\img\kramark_logo.png" class="logo" alt="logo">
+      
     <div class="sidebar__content">
       <nav class="primary">
         <ul>
           <li>Collections</li>
           <li>Tags</li>
-          <li>Filters</li>
+          <li>Favorites</li>
+
         </ul>
       </nav>
     </div>
   </div>
 
-  <div class="handle"></div>
 
 
-  <div class="main-content">
+  <div id="main" class="main-content">
+    <button class="openbtn" onclick="openNav()">☰</button>  
     <nav class="top-nav flex-container">
       <input type="url" name="url" id="url-input"
        placeholder="https://example.com"
@@ -39,9 +41,15 @@
     </nav>
     <div id="grid" class="grid-container">
 
+
     </div> 
 
+    <div class="left-sidebar">
+      
+
+    </div>
   </div>
+
   <script src="static/scripts/index.js"></script>
 </body>
 </html>

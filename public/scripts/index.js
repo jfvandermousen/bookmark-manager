@@ -6,122 +6,17 @@ const bookmarkPage = document.getElementById('grid');
 const deleteBm = document.getElementById('delete');
 
 
+function openNav() {
+  document.getElementById("sidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+  document.querySelector(".openbtn").style.display = "none";
+}
 
-
-
-
-
-
-
-// AJUSTABLE SIDEBAR
-
-var minOffset = 150;
-var maxOffset = 400;
-
-$('.handle').mousedown(function(ev, handler) {
-  $(document).mousemove(function(ev, handler) {
-    var offset = ev.pageX;
-    
-    offset = offset < minOffset ? minOffset : offset;
-    offset = offset > maxOffset ? maxOffset : offset;
-    
-    $('.sidebar').css('width', offset);
-    $('.main-content').css('marginLeft', offset + 10);
-  });
-});
-
-$(document).mouseup(function(e) {
-  $(document).unbind('mousemove');
-});
-
-const addBookmark = (bookmarks) => {
-   bookmarks.forEach((bookmark) => {
-  
-    })
-  }
-
-
-// END AJUSTABLE SIDEBAR
-
-// // // Draggable
-// function handleDragStart(e) {
-//     this.style.opacity = '0.4';
-//   }
-
-//   function handleDragEnd(e) {
-//     this.style.opacity = '1';
-//   }
-
-//   let items = document.querySelectorAll('.grid-container .grid-item');
-//   items.forEach(function(item) {
-//     item.addEventListener('dragstart', handleDragStart, false);
-//     item.addEventListener('dragend', handleDragEnd, false);
-//   });
-
-//   document.addEventListener('DOMContentLoaded', (event) => {
-
-//     function handleDragStart(e) {
-//       this.style.opacity = '0.4';
-//     }
-  
-//     function handleDragEnd(e) {
-//       this.style.opacity = '1';
-  
-//       items.forEach(function (item) {
-//         item.classList.remove('over');
-//       });
-//     }
-  
-//     function handleDragOver(e) {
-//       if (e.preventDefault) {
-//         e.preventDefault();
-//       }
-  
-//       return false;
-//     }
-  
-//     function handleDragEnter(e) {
-//       this.classList.add('over');
-//     }
-  
-//     function handleDragLeave(e) {
-//       this.classList.remove('over');
-//     }
-  
-//     let items = document.querySelectorAll('.grid-container .grid-item');
-//     items.forEach(function(item) {
-//       item.addEventListener('dragstart', handleDragStart, false);
-//       item.addEventListener('dragover', handleDragOver, false);
-//       item.addEventListener('dragenter', handleDragEnter, false);
-//       item.addEventListener('dragleave', handleDragLeave, false);
-//       item.addEventListener('dragend', handleDragEnd, false);
-//     });
-//   });
-
-//   function handleDrop(e) {
-//     e.stopPropagation(); // stops the browser from redirecting.
-//     return false;
-//   }
-
-//   function handleDragStart(e) {
-//     this.style.opacity = '0.4';
-  
-//     dragSrcEl = this;
-  
-//     e.dataTransfer.effectAllowed = 'move';
-//     e.dataTransfer.setData('text/html', this.innerHTML);
-//   }
-
-//   function handleDrop(e) {
-//     e.stopPropagation();
-  
-//     if (dragSrcEl !== this) {
-//       dragSrcEl.innerHTML = this.innerHTML;
-//       this.innerHTML = e.dataTransfer.getData('text/html');
-//     }
-  
-//     return false;
-//   }
+function closeNav() {
+  document.getElementById("sidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+  document.querySelector(".openbtn").style.display = "";
+}
 
 
 const addUrlToDb = (data) => {
@@ -134,7 +29,7 @@ const addUrlToDb = (data) => {
       ,body: JSON.stringify(data),
     })
    
-    .then(response => response.json(data))
+    // .then(response => response.json(data))
     .then(data => {
       console.log('Success:', data);
     })
@@ -164,10 +59,15 @@ const searchUrl = (url) => {
 
 
         const addBm = (bookmarks) => {
+          bookmarkPage.innerHTML=""
             bookmarks.forEach((bookmark) => {
             let bookmarkCard = `      
                <div class="grid-item card">
-                <img class="delete" data-id=${bookmark.id}  src="static/img/sharp_delete.png">
+               <div class="btn-action">
+               <i class="far fa-star"></i>
+               <a href="${bookmark.Url}" target="blank"><i class="far fa-eye btn-action"></i></a>
+               <img class="delete" data-id=${bookmark.id}  src="static/img/sharp_delete.png">
+               </div>
                 <img id="myimage" src="${bookmark.Img_url}">
                 <div id="mytitle" class="">${bookmark.Title}</div>
                 <div id="mydescription" class="">${bookmark.Description}</div>
@@ -177,16 +77,9 @@ const searchUrl = (url) => {
               </div>`
               console.log(bookmark.Title)
               bookmarkPage.insertAdjacentHTML('beforeend', bookmarkCard)
-
-
-          
+              trashButton();
             })
           }
-
-
-
-
-
 
           const getBookmark = () => {
             fetch('/apigeturl', {
@@ -197,21 +90,19 @@ const searchUrl = (url) => {
             })
             .then(response => response.json()
             .then(data => {
-              console.log('Success:', data);
+              console.log('COME BACK INFO', data);
+
               addBm(data.data);
-              trashButton();
+              // trashButton();
+              
             })
             )
           }
-        
-      //     function myFunction(){
-      //       for(let i=1;i<=6; i++) {
-      //         getBookmark();
-      //   }
-      // }
 
 
-          const deleteBookmark = (card) => {
+
+
+const deleteBookmark = (card) => {
             fetch('/apideleteurl', {
               method: 'POST',
               headers: {
@@ -231,18 +122,24 @@ const searchUrl = (url) => {
         
         const trashButton = () => {
             let trashes = document.querySelectorAll('.delete')
+            
             trashes.forEach((trash) =>{
+              let parent = trash.closest(".card")
                 trash.addEventListener('click', (event) => {
                   console.log(trash.dataset.id)
                   deleteBookmark({id: trash.dataset.id})
-                  trash.parentNode.remove(); 
+                  parent.remove(); 
                 })
             })
         }
         
+// function reloadPage() {
+//           location.reload();
+//         }
 
+getBookmark();
 
-function clearField() {
+function clearInput() {
 
   document.getElementById("url-input").value = "";
 }
@@ -251,9 +148,7 @@ addUrlBtn.addEventListener('click', (event) => {
 
     let input = document.getElementById('url-input')
     searchUrl(input);
-    clearField();
-    // getBookmark();
-
+    clearInput();
 
 });
 
@@ -262,6 +157,4 @@ showBtn.addEventListener('click', (event) => {
   getBookmark();
 });
 
-// deleteBm.addEventListener('click', (event) => {
-//   alert('Clicked');
-// });
+

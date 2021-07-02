@@ -42,7 +42,8 @@ html, body {
     }
 
     #add {
-      margin-right: 1em;
+      margin:0 1em 1em 0;
+
     }
 
   input {
@@ -56,35 +57,65 @@ html, body {
 
 
   /* SIDEBAR */
-
-
-
-#sidebar {
-    float: left;
-    width: 300px;
-    background: #ddd;
-    height: 100vh;
-    background: #0d1b2adc;;
-    overflow: auto;
-}
-.sidebar__content {
-    padding-left: 1em;
-    color: #f8f5ef;
-}
-
-.handle {
-    float: left;
-    width: 10px;
-    height: 100vh;
-    background-color: rgb(241, 241, 241);
-    cursor: ew-resize;
+  .sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #0d1b2adc;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 16px;
   }
+  
+  .sidebar li {
+    text-decoration: none;
+    margin-bottom: 1em;
+    display: block;
+    transition: 0.3s;
+    padding: 0.2em 0 0.2em 1em;
+    color: white;
+  }
+  
+  .sidebar li:hover {
+    background-color: #f8f5ef7a;
+  }
+  
+  .sidebar .closebtn {
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    font-size: 36px;
+    padding-top: 7px;
+    padding-right: 32px;
+    text-decoration: none;
+}
+  
+  .openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  .closebtn 
+  {
+    cursor: pointer;
+  
+  }
+  .left-sidebar {
+    /* width: 400px; */
+  }
+  
+
+
+
   .primary ul {
     list-style-type: none;
     padding-left: 0;
-}
-li {
-    margin-bottom: 1em;
 }
 
 
@@ -96,25 +127,20 @@ li {
 
 
   /* MAIN */
-
-.main-content {
-    margin-left: 310px;
-    height: 100vh;
-    overflow: scroll;
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
     background: #0d1b2a;
-    /* padding: 1em 5em 1em 1em; */
-
-}
-
+    overflow: scroll;
+  }
+  
 
 .grid-container {
     width: 60%;
     padding: 1em 5em 1em 1em;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-       /* define the number of grid columns */
-
-    grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) );
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: repeat( auto-fill, minmax(300px, 1fr) );
     grid-gap: 20px;
     height: 90vh;
     overflow: scroll;
@@ -171,8 +197,47 @@ li {
 
 
 .delete {
-    float: right;
     width: 36px;
     height: 36px;
     margin-bottom: 2px;
 }
+.btn-action > a {
+  line-height: 0;
+}
+.fa-eye {
+  font-size: 25px;
+}
+.fa-star {
+  font-size: 20px;
+}
+.far {
+  padding: 0 3px;
+}
+
+.btn-action {
+  display: flex;
+  justify-content: flex-end;;
+  align-items: center;
+}
+
+/* MEDIA QUERIES */
+
+
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    /* .sidebar a {font-size: 18px;} */
+  }
+
+  @media screen and (max-width: 464px) {
+    .grid-container {
+      width: 80%;
+      padding: 1em 5em 1em 1em;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: repeat( auto-fill, minmax(150px, 1fr) );
+      grid-gap: 20px;
+      height: 90vh;
+      overflow: scroll;
+    }
+  }
