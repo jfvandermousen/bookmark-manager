@@ -77,7 +77,7 @@ const searchUrl = (url) => {
               </div>`
               console.log(bookmark.Title)
               bookmarkPage.insertAdjacentHTML('beforeend', bookmarkCard)
-              trashButton();
+              // trashButton();
             })
           }
 
@@ -93,7 +93,7 @@ const searchUrl = (url) => {
               console.log('COME BACK INFO', data);
 
               addBm(data.data);
-              // trashButton();
+              trashButton();
               
             })
             )
@@ -148,7 +148,7 @@ addUrlBtn.addEventListener('click', (event) => {
 
     let input = document.getElementById('url-input')
     searchUrl(input);
-    clearInput();
+    // clearInput();
 
 });
 
