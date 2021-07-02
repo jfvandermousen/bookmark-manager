@@ -1,4 +1,3 @@
-// FRONT END FILE TO INTERACT WITH THE DOM
 
 const addUrlBtn = document.getElementById('add');
 const showBtn = document.getElementById('show');
@@ -32,10 +31,12 @@ const addUrlToDb = (data) => {
     // .then(response => response.json(data))
     .then(data => {
       console.log('Success:', data);
+      
     })
     .catch((error) => {
       console.error('Error:', error);
     })
+    getBookmark();
   }
 
 const searchUrl = (url) => {
@@ -54,6 +55,7 @@ const searchUrl = (url) => {
         console.log('YES !!', data);
         addUrlToDb(data);
       })
+      
 }
 
 
@@ -139,6 +141,7 @@ const deleteBookmark = (card) => {
 
 getBookmark();
 
+
 function clearInput() {
 
   document.getElementById("url-input").value = "";
@@ -148,13 +151,14 @@ addUrlBtn.addEventListener('click', (event) => {
 
     let input = document.getElementById('url-input')
     searchUrl(input);
-    // clearInput();
-
+    clearInput();
 });
 
 
 showBtn.addEventListener('click', (event) => {
   getBookmark();
 });
+
+
 
 
